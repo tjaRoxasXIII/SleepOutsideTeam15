@@ -31,8 +31,7 @@ function cartItemTemplate(item, index) {
     <p class="cart-card__price">$${item.FinalPrice}</p>
     
   </li>
-  <span span class="cart-removal" data - index="${index}" > X</span >`
-  ;
+  <span span class="cart-removal" data - index="${index}" > X</span >`;
 
   return newItem;
 }
