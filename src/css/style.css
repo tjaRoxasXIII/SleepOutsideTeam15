@@ -285,3 +285,19 @@ footer {
   font-size: var(--small-font);
   padding: 1em;
 }
+
+/* CART COUNTER */
+.cart svg {
+  z-index: -1;
+}
+
+.countCart {
+  background-color: var(--tertiary-color);
+  margin-bottom: -10PX;
+  padding: 3px;
+  z-index: 1;
+  color: white;
+  position: relative;
+  border-radius: 50%;
+  font-size: 0.9rem;
+}
