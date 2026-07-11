@@ -1,5 +1,5 @@
 import cartItemsCounter from "./itemsCount.mjs";
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
 cartItemsCounter()
 
@@ -20,19 +20,27 @@ function renderCartContents() {
       itemsList.push({ ...item, count: 1})
     }
   });
-  const htmlItems = itemsList.map((item) => cartItemTemplate(item));
+  //TA addition: preserve index for cart removal
+  const htmlItems = itemsList.map((item, index) => cartItemTemplate(item, index));
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
   // end of the function below is comented the part of the code taht rendered
   //  multiple same elements
 
   // const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   // document.querySelector(".product-list").innerHTML = htmlItems.join("");
-
+  // Taylor addition: attach removal listeners
+  document.querySelectorAll(".cart-removal").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const index = parseInt(e.currentTarget.dataset.index);
+      removeCartItem(index);
+    });
+  });
 }
 
 // i added itemQuantity to quantify the amount of 
 // itens instead of rendering the item multiple times 
-function cartItemTemplate(item) {
+// merged with taylor's index feature to get item index from cart for specific location removal
+function cartItemTemplate(item, index) {
   const newItem = `<li class="cart-card divider">
   <a href="#" class="cart-card__image">
     <img
@@ -46,9 +54,21 @@ function cartItemTemplate(item) {
   <p class="cart-card__color">${item.Colors[0].ColorName}</p>
   <p class="cart-card__quantity">QTY: ${item.count}</p>
   <p class="cart-card__price">$${item.FinalPrice}</p>
-</li>`;
+  <span span class="cart-removal" data-index="${index}" > X</span >
+</li>`
+;
 
   return newItem;
+}
+
+function removeCartItem(index) {
+  const cart = getLocalStorage("so-cart") || [];
+
+  cart.splice(index, 1);
+
+  setLocalStorage("so-cart", cart);
+
+  renderCartContents();
 }
 
 renderCartContents();

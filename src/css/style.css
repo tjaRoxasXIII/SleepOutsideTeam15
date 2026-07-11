@@ -131,6 +131,30 @@ button {
   fill: gray;
 }
 
+.cart-removal {
+  position: relative;
+  cursor: pointer;
+  top: 8px;
+  right: 8px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  height: 30px;
+  width: 30px;
+  transition: all 0.3s ease;
+}
+
+.cart-removal:hover {
+  color: red;
+  background: gray;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transform: scaleX(1.2);
+  color: var(--tertiary-color);
+}
+
 /* End cart icon styles */
 
 .mission {
