@@ -1,7 +1,7 @@
 import { getLocalStorage } from "./utils.mjs"
 
 export default async function cartItemsCounter() {
-    const cart = getLocalStorage("so-cart")
+    const cart = getLocalStorage("so-cart") || []
     const nav = document.querySelector(".cart")
     const children = nav.children
     let itemsCount = cart.length
