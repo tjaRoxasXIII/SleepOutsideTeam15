@@ -1,64 +1,61 @@
-import cartItemsCounter from "./itemsCount.mjs";
-import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { setLocalStorage, getLocalStorage } from "./utils.mjs";
+
+function productDetailsTemplate(product) {
+  // Use optional chaining (?.[0]?.ColorName) and fallback to 'N/A' if no color data exists
+  const colorName = product.Colors?.[0]?.ColorName || "Standard";
+
+  return `<section class="product-detail">
+    <h3>${product.Brand.Name}</h3>
+    <h2 class="divider">${product.NameWithoutBrand}</h2>
+    <img
+      class="divider"
+      src="${product.Images.PrimaryLarge}"
+      alt="${product.NameWithoutBrand}"
+    />
+    <p class="product-card__price">$${product.ListPrice}</p>
+    <p class="product__color">${colorName}</p>
+    <p class="product__description">
+      ${product.DescriptionHtmlSimple}
+    </p>
+    <div class="product-detail__add">
+      <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
+    </div>
+  </section>`;
+}
+
 export default class ProductDetails {
-    constructor(productId, datasource) {
-        this.productId = productId;
-        this.product = {};
-        this.datasource = datasource;
-    }    
+  constructor(productId, dataSource) {
+    this.productId = productId;
+    this.product = {};
+    this.dataSource = dataSource;
+  }
 
-    async init() {
-        this.product = await this.datasource.findProductById(this.productId);
-        this.renderProductDetails(this.product);
-
-        document
-            .getElementById("addToCart")
-            .addEventListener("click", this.addProductToCart.bind(this));
-    }
-
-    addProductToCart() {
-        const currentCart = getLocalStorage("so-cart") || [];
-        currentCart.push(this.product);
-        setLocalStorage("so-cart", currentCart);
-        cartItemsCounter()
-    }
-
-    renderProductDetails(data) {
-        const container = document.querySelector(".product-detail")
-        const h3 = document.createElement("h3")
-        const h2 = document.createElement("h2")
-        const img = document.createElement("img")
-        const price = document.createElement("p")
-        const color = document.createElement("p")
-        const description = document.createElement("p")
-        const div = document.createElement("div")
-        const btn = document.createElement("button")
+  async init() {
+    this.product = await this.dataSource.findProductById(this.productId);
+    this.renderProductDetails("main");
     
-        h2.classList.add("divider")
-        img.classList.add("divider")
-        price.classList.add("product-card__price")
-        color.classList.add("product__color")
-        description.classList.add("product__description")
-        div.classList.add("product-detail__add")
-        btn.id = "addToCart"
-    
-        h3.textContent = data.Brand.Name
-        h2.textContent = data.NameWithoutBrand
-        img.src = `${data.Image}`
-        img.alt = data.NameWithoutBrand
-        price.textContent = data.FinalPrice
-        color.textContent = data.Colors.ColorName
-        description.inert = data.DescriptionHtmlSimple
-        btn.textContent = "Add to Cart"
-        container.innerHTML = ""
-    
-        container.appendChild(h3)
-        container.appendChild(h2)
-        container.appendChild(img)
-        container.appendChild(price)
-        container.appendChild(color)
-        container.appendChild(description)
-        container.appendChild(btn)
+    const addToCartBtn = document.getElementById("addToCart");
+    if (addToCartBtn) {
+      addToCartBtn.addEventListener("click", this.addToCart.bind(this));
     }
+  }
 
+  addToCart() {
+    let cartItems = getLocalStorage("so-cart") || [];
+    cartItems.push(this.product);
+    setLocalStorage("so-cart", cartItems);
+    
+    // Refresh header dynamic counter badge instantly upon addition
+    const cartElement = document.querySelector(".cart-count");
+    if (cartElement) {
+      cartElement.textContent = cartItems.length;
+    }
+  }
+
+  renderProductDetails(selector) {
+    const element = document.querySelector(selector);
+    if (element) {
+      element.innerHTML = productDetailsTemplate(this.product);
+    }
+  }
 }
