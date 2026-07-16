@@ -1,20 +1,28 @@
-import { getLocalStorage } from "./utils.mjs"
+import { getLocalStorage } from "./utils.mjs";
 
-export default async function cartItemsCounter() {
-    const cart = getLocalStorage("so-cart") || []
-    const nav = document.querySelector(".cart")
-    const children = nav.children
-    let itemsCount = cart.length
-    const previousCount = document.querySelector(".countCart")
-    if (previousCount) {
-        previousCount.textContent = itemsCount
-        return
+export default function updateCartCount() {
+  const cartItems = getLocalStorage("so-cart") || [];
+  const totalCount = cartItems.reduce((sum, item) => sum + (item.Quantity || 1), 0);
+  
+  const cartElement = document.querySelector(".cart");
+  if (cartElement) {
+    // Find or create a small badge element for our number
+    let countBadge = cartElement.querySelector(".cart-count");
+    if (!countBadge) {
+      countBadge = document.createElement("span");
+      countBadge.className = "cart-count";
+      cartElement.appendChild(countBadge);
     }
-    const h3 = document.createElement("h3")
-    h3.classList.add("countCart")   
-    h3.textContent = itemsCount
+    countBadge.textContent = totalCount;
+    
+    // Hide the badge if the cart is empty
+    if (totalCount === 0) {
+      countBadge.style.display = "none";
+    } else {
+      countBadge.style.display = "inline-block";
+    }
+  }
+}
 
-    nav.insertBefore(h3, children[0])
-} 
-
-cartItemsCounter()
+// Automatically run on load
+updateCartCount();
