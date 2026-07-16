@@ -3,13 +3,13 @@ import ProductList from "./ProductList.mjs";
 import { loadHeaderFooter } from "./utils.mjs";
 import getParam from "./utils.mjs";
 
-// Load header and footer partials dynamically
+// 1. Initialize the header and footer template injection dynamically
 loadHeaderFooter();
 
-// Pull category parameter from the current page URL
+// 2. Read the active category parameter from the URL string
 const category = getParam("category");
 
-// Format and set dynamic category heading dynamically on screen
+// 3. Format and cleanly replace the heading text content on screen
 const titleElement = document.querySelector(".category-title");
 if (titleElement && category) {
   const formattedCategory = category
@@ -20,6 +20,7 @@ if (titleElement && category) {
   titleElement.textContent = `Top Products: ${formattedCategory}`;
 }
 
+// 4. Initialize our API data source and lists controller
 const dataSource = new ProductData();
 const listElement = document.querySelector(".product-list");
 const myList = new ProductList(category, dataSource, listElement);
