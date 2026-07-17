@@ -311,7 +311,7 @@ footer {
 
 .countCart {
   background-color: var(--tertiary-color);
-  margin-bottom: -10PX;
+  margin-bottom: -10px;
   padding: 3px;
   z-index: 1;
   color: white;

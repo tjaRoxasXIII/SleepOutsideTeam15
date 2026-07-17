@@ -1,27 +1,28 @@
 import cartItemsCounter from "./itemsCount.mjs";
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
-cartItemsCounter()
+cartItemsCounter();
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
 
-  // added by dreiser 
-  // function to count the 
-  const itemsList = []
+  // added by dreiser
+  // function to count the
+  const itemsList = [];
 
-  cartItems.forEach(item => {
-    const isInItemList = itemsList.find(i => i.Id === item.Id)
+  cartItems.forEach((item) => {
+    const isInItemList = itemsList.find((i) => i.Id === item.Id);
 
     if (isInItemList) {
-      isInItemList.count += 1
-    }
-    else {
-      itemsList.push({ ...item, count: 1})
+      isInItemList.count += 1;
+    } else {
+      itemsList.push({ ...item, count: 1 });
     }
   });
   //TA addition: preserve index for cart removal
-  const htmlItems = itemsList.map((item, index) => cartItemTemplate(item, index));
+  const htmlItems = itemsList.map((item, index) =>
+    cartItemTemplate(item, index),
+  );
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
   // end of the function below is comented the part of the code taht rendered
   //  multiple same elements
@@ -37,8 +38,8 @@ function renderCartContents() {
   });
 }
 
-// i added itemQuantity to quantify the amount of 
-// itens instead of rendering the item multiple times 
+// i added itemQuantity to quantify the amount of
+// itens instead of rendering the item multiple times
 // merged with taylor's index feature to get item index from cart for specific location removal
 function cartItemTemplate(item, index) {
   const newItem = `<li class="cart-card divider">
@@ -55,8 +56,7 @@ function cartItemTemplate(item, index) {
   <p class="cart-card__quantity">QTY: ${item.count}</p>
   <p class="cart-card__price">$${item.FinalPrice}</p>
   <span span class="cart-removal" data-index="${index}" > X</span >
-</li>`
-;
+</li>`;
 
   return newItem;
 }
