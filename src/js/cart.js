@@ -1,6 +1,8 @@
 import cartItemsCounter from "./itemsCount.mjs";
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { loadHeaderFooter } from "./utils.mjs";
 
+loadHeaderFooter();
 cartItemsCounter();
 
 function renderCartContents() {
