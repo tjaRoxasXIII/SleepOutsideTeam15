@@ -3,7 +3,6 @@ import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 import { loadHeaderFooter } from "./utils.mjs";
 
 loadHeaderFooter();
-cartItemsCounter();
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
@@ -38,6 +37,8 @@ function renderCartContents() {
       removeCartItem(index);
     });
   });
+  cartItemsCounter();
+  calculateCartTotal();
 }
 
 // i added itemQuantity to quantify the amount of
@@ -71,6 +72,23 @@ function removeCartItem(index) {
   setLocalStorage("so-cart", cart);
 
   renderCartContents();
+}
+
+function calculateCartTotal() {
+  const cartItems = getLocalStorage("so-cart") || [];
+  const myCart = document.querySelector(".cart-total");
+
+  if (cartItems.length > 0) {
+    let total = 0;
+
+    cartItems.forEach((item) => {
+      total += item.FinalPrice;
+    });
+
+    myCart.innerHTML = `Total: $${total.toFixed(2)}`;
+  } else {
+    myCart.innerHTML = `Your cart is empty.`;
+  }
 }
 
 renderCartContents();
