@@ -1,7 +1,7 @@
 import { setLocalStorage, getLocalStorage } from "./utils.mjs";
+import updateCartCount from "./itemsCount.mjs"; // 1. Import your counter logic
 
 function productDetailsTemplate(product) {
-  // Use optional chaining (?.[0]?.ColorName) and fallback to 'N/A' if no color data exists
   const colorName = product.Colors?.[0]?.ColorName || "Standard";
 
   return `<section class="product-detail">
@@ -42,14 +42,20 @@ export default class ProductDetails {
 
   addToCart() {
     let cartItems = getLocalStorage("so-cart") || [];
-    cartItems.push(this.product);
+    
+    // Check if item already exists to handle Quantity safely
+    const existingItem = cartItems.find(item => item.Id === this.product.Id);
+    if (existingItem) {
+      existingItem.Quantity = (existingItem.Quantity || 1) + 1;
+    } else {
+      this.product.Quantity = 1;
+      cartItems.push(this.product);
+    }
+    
     setLocalStorage("so-cart", cartItems);
     
-    // Refresh header dynamic counter badge instantly upon addition
-    const cartElement = document.querySelector(".cart-count");
-    if (cartElement) {
-      cartElement.textContent = cartItems.length;
-    }
+    // 2. Call your modular helper to handle insertion/calculation automatically
+    updateCartCount();
   }
 
   renderProductDetails(selector) {

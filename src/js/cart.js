@@ -45,21 +45,25 @@ function renderCartContents() {
 // itens instead of rendering the item multiple times
 // merged with taylor's index feature to get item index from cart for specific location removal
 function cartItemTemplate(item, index) {
-  const newItem = `<li class="cart-card divider">
-  <a href="#" class="cart-card__image">
-    <img
-      src="${item.Image}"
-      alt="${item.Name}"
-    />
-  </a>
-  <a href="#">
-    <h2 class="card__name">${item.Name}</h2>
-  </a>
-  <p class="cart-card__color">${item.Colors[0].ColorName}</p>
-  <p class="cart-card__quantity">QTY: ${item.count}</p>
-  <p class="cart-card__price">$${item.FinalPrice}</p>
-  <span span class="cart-removal" data-index="${index}" > X</span >
-</li>`;
+  const newItem = `
+    <li class="cart-card divider">
+      <a href="#" class="cart-card__image">
+        <img
+          src="${item.Images.PrimarySmall}"
+          alt="${item.Name}"
+        />
+      </a>
+      <a href="#">
+        <h2 class="card__name">${item.Name}</h2>
+      </a>
+      <p class="cart-card__color">${item.Colors[0].ColorName}</p>
+      <p class="cart-card__quantity">QTY: ${item.count}</p>
+      <p class="cart-card__price">$${item.FinalPrice}</p>
+      <div>
+        <span span class="cart-removal" data-index="${index}" >X</span >
+      </div>
+    </li>
+  `;
 
   return newItem;
 }
