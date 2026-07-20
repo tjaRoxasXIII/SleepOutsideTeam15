@@ -24,5 +24,6 @@ if (titleElement && category) {
 const dataSource = new ProductData();
 const listElement = document.querySelector(".product-list");
 const myList = new ProductList(category, dataSource, listElement);
+console.log(dataSource);
 
 myList.init();
