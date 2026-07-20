@@ -4,15 +4,38 @@ import updateCartCount from "./itemsCount.mjs"; // 1. Import your counter logic
 function productDetailsTemplate(product) {
   const colorName = product.Colors?.[0]?.ColorName || "Standard";
 
+  const suggestedPrice = Number(product.SuggestedRetailPrice) || 0;
+  const listPrice = Number(product.ListPrice) || 0;
+
+  const discountAmount = suggestedPrice > listPrice 
+    ? (suggestedPrice - listPrice).toFixed(2) 
+    : 0;
+
+  /**
+   * BADGE STRUCTURE: The `.corner-badge-wrap` acts as the reference point.
+   * It takes up ZERO layout space (height:0, margin-top) so the following 
+   * `<img>` tag flows exactly where it normally would.
+   */
+  const discountSpan = discountAmount > 0 
+    ? `<div class="corner-badge-wrap">
+         <span class="discount">$${discountAmount}<br>off!</span>
+       </div>` 
+    : '';
+
   return `<section class="product-detail">
     <h3>${product.Brand.Name}</h3>
     <h2 class="divider">${product.NameWithoutBrand}</h2>
-    <img
-      class="divider"
-      src="${product.Images.PrimaryLarge}"
-      alt="${product.NameWithoutBrand}"
-    />
-    <p class="product-card__price">$${product.ListPrice}</p>
+    
+    <div class="product-media-group">
+      ${discountSpan}
+      <img
+        class="divider"
+        src="${product.Images.PrimaryLarge}"
+        alt="${product.NameWithoutBrand}"
+      />
+    </div>
+    
+    <p class="product-card__price">$${listPrice.toFixed(2)}</p>
     <p class="product__color">${colorName}</p>
     <p class="product__description">
       ${product.DescriptionHtmlSimple}
@@ -22,7 +45,6 @@ function productDetailsTemplate(product) {
     </div>
   </section>`;
 }
-
 export default class ProductDetails {
   constructor(productId, dataSource) {
     this.productId = productId;

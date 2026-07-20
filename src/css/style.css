@@ -382,3 +382,106 @@ footer {
     opacity: 1;
   }
 }
+
+/* --- PRODUCT CARD STYLE --- */
+.product-card {
+  position: relative; /* Anchor for the absolute badge */
+  overflow: hidden;    /* Clips the diagonal badge edges cleanly */
+}
+
+/* Scopes the badge strictly inside the product card list item */
+.product-card .discount {
+  position: absolute;
+  top: 18px;
+  right: -32px;
+  transform: rotate(45deg);
+  width: 120px;
+  text-align: center;
+  
+  /* Text and Line-height tuning */
+  line-height: 1.05;
+  font-size: clamp(0.6rem, 2vw, 0.7rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  
+  /* Design and Depth */
+  background-color: #e53935;
+  color: #ffffff;
+  padding: 0.3em 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 5;
+  pointer-events: none; /* Let clicks pass right through to the product link */
+}
+
+/* Responsive adjustment for extra small mobile cards */
+@media (max-width: 480px) {
+  .product-card .discount {
+    top: 14px;
+    right: -35px;
+    width: 110px;
+    font-size: 0.58rem;
+  }
+}
+
+/* --- PRODUCT DETAIL PAGE STYLE --- */
+.product-detail {
+  /* No overflow:hidden here, keeping the global cart view unblocked! */
+  position: relative; 
+}
+
+/* The zero-space structural container pushing the badge over the image */
+.corner-badge-wrap {
+  position: relative;
+  float: right;
+  height: 0;
+  z-index: 10;
+  margin-top: 0;
+  margin-right: -10px; /* Slight offset to line up with standard image margins */
+}
+
+/* Scopes the badge strictly inside the details floating wrapper */
+.corner-badge-wrap .discount {
+  position: absolute;
+  top: 18px;
+  right: -32px;
+  transform: rotate(45deg);
+  width: 120px;
+  text-align: center;
+  
+  /* Text tuning */
+  line-height: 1.05;
+  font-size: clamp(0.6rem, 2vw, 0.7rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  
+  /* Visual styling */
+  background-color: #e53935;
+  color: #ffffff;
+  padding: 0.3em 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+/* Enforce fluid sizing for the image container beneath the floating wrap */
+.product-media-group {
+  position: relative;
+  display: block;
+}
+
+.product-media-group img {
+  position: static; /* Natural DOM flow unchanged */
+  z-index: 1;
+}
+
+/* Responsive alignment tuning for mobile screens */
+@media (max-width: 480px) {
+  .corner-badge-wrap {
+    margin-right: -5px;
+  }
+  .corner-badge-wrap .discount {
+    top: 14px;
+    right: -35px;
+    width: 110px;
+    font-size: 0.58rem;
+  }
+}
