@@ -124,7 +124,7 @@ button {
 }
 
 .cart img {
-  width: 25px;
+  width: 30px;
 }
 
 .cart:hover svg {
@@ -483,5 +483,20 @@ footer {
     right: -35px;
     width: 110px;
     font-size: 0.58rem;
+  }
+/* Responsive image sizing for moble screens */
+  .cart img{
+    width: 30px;
+  }
+  .product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+  .product-grid li{
+    margin-bottom:10px;
+  } 
+  .product-detail img {
+    width: 50%;
   }
 }
