@@ -71,6 +71,17 @@ p {
   background-color: white;
 }
 
+.hero-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-headline);
+  font-size: 3rem;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
 .logo--square {
   font-size: var(--small-font);
   width: 110px;
@@ -227,12 +238,60 @@ button {
   width: 100%;
 }
 
+/* --- Category Cards Grid Styles (Homepage) --- */
+.category-cards {
+  padding: 1rem;
+  text-align: center;
+}
+
+.category-cards h2 {
+  margin-bottom: 1rem;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1.5rem;
+  list-style-type: none;
+  padding: 0;
+}
+
+.product-grid li {
+  background-color: #f9f9f9;
+  border: 1px solid var(--light-grey);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-grid li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-grid a {
+  text-decoration: none;
+  color: var(--dark-grey);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-grid img {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 0.5rem;
+}
+
+.product-grid h3 {
+  font-size: 1rem;
+}
+
 /* Start cart list card styles */
 .cart-card {
   display: grid;
   grid-template-columns: 25% auto 15%;
   font-size: var(--small-font);
-  /* max-height: 120px; */
   align-items: center;
 }
 
@@ -286,21 +345,32 @@ footer {
   padding: 1em;
 }
 
-/* CART COUNTER */
-.cart svg {
-  z-index: -1;
+/* --- CART COUNTER BADGE --- */
+.cart {
+  position: relative;
 }
 
-.countCart {
+.cart-count {
+  position: absolute;
+  top: -2px;
+  right: -5px;
   background-color: var(--tertiary-color);
-  margin-bottom: -10PX;
-  padding: 3px;
-  z-index: 1;
-  color: white;
-  position: relative;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 0.75rem;
   border-radius: 50%;
-  font-size: 0.9rem;
+  padding: 2px 6px;
+  min-width: 18px;
+  text-align: center;
+  line-height: 1;
+  z-index: 10;
 }
+
+/* Hide count badge when cart is empty */
+.cart-count.hide {
+  display: none !important;
+}
+
 /* --- Quick View Modal Styles --- */
 
 /* This class hides the modal when it shouldn't be visible */
@@ -311,12 +381,12 @@ footer {
 /* This darkens the screen background behind the pop-up */
 .modal {
   position: fixed;
-  z-index: 9999; /* Makes sure it sits on top of everything else */
+  z-index: 9999;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -347,7 +417,7 @@ footer {
 }
 
 .close-modal:hover {
-  color: #ff0000; /* Turns red when hovered */
+  color: #ff0000;
 }
 
 /* Nice fade-in animation for when the modal pops up */
@@ -360,4 +430,22 @@ footer {
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+.alert {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.alert span {
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0 0.5rem;
 }

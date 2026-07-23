@@ -64,6 +64,25 @@ export function renderWithTemplate(template, parentElement, data, callback) {
   }
 }
 
+// Calculates total cart count and updates the badge in the header
+export function renderCartCount() {
+  const cartItems = getLocalStorage("so-cart") || [];
+  const cartCountElement = document.querySelector(".cart-count");
+
+  if (cartCountElement) {
+    // If cart items are objects with a quantity property, sum them up; otherwise, use list length
+    const totalCount = cartItems.reduce((total, item) => total + (item.Quantity || 1), 0);
+    cartCountElement.textContent = totalCount;
+
+    // Show count if cart has items, hide if empty
+    if (totalCount > 0) {
+      cartCountElement.classList.remove("hide");
+    } else {
+      cartCountElement.classList.add("hide");
+    }
+  }
+}
+
 // Dynamically loads the header and footer HTML partials globally
 export async function loadHeaderFooter() {
   try {
@@ -73,9 +92,44 @@ export async function loadHeaderFooter() {
     const headerElement = document.getElementById("main-header");
     const footerElement = document.getElementById("main-footer");
     
-    renderWithTemplate(headerTemplate, headerElement, null, cartItemsCounter);
+    // Renders header and automatically triggers cart counter calculation
+    renderWithTemplate(headerTemplate, headerElement, null, () => {
+      if (typeof cartItemsCounter === "function") {
+        cartItemsCounter();
+      }
+      renderCartCount();
+    });
+    
     renderWithTemplate(footerTemplate, footerElement);
   } catch (error) {
     console.error("Error loading header/footer partials:", error);
   }
+}
+
+// Display a custom UI alert message banner at the top of <main>
+export function alertMessage(message, scroll = true) {
+  const alert = document.createElement("div");
+  alert.classList.add("alert");
+  alert.innerHTML = `<p>${message}</p><span>X</span>`;
+
+  alert.addEventListener("click", function (e) {
+    if (e.target.tagName === "SPAN" || e.target.innerText === "X") {
+      this.remove();
+    }
+  });
+
+  const main = document.querySelector("main");
+  if (main) {
+    main.prepend(alert);
+  }
+
+  if (scroll) {
+    window.scrollTo(0, 0);
+  }
+}
+
+// Remove all active alerts before creating new ones
+export function removeAllAlerts() {
+  const alerts = document.querySelectorAll(".alert");
+  alerts.forEach((alert) => alert.remove());
 }

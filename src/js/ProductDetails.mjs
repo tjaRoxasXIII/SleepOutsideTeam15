@@ -1,7 +1,7 @@
-import { setLocalStorage, getLocalStorage } from "./utils.mjs";
+import { setLocalStorage, getLocalStorage, renderCartCount, alertMessage } from "./utils.mjs";
 
 function productDetailsTemplate(product) {
-  // Use optional chaining (?.[0]?.ColorName) and fallback to 'N/A' if no color data exists
+  // Use optional chaining (?.[0]?.ColorName) and fallback to 'Standard' if no color data exists
   const colorName = product.Colors?.[0]?.ColorName || "Standard";
 
   return `<section class="product-detail">
@@ -46,10 +46,10 @@ export default class ProductDetails {
     setLocalStorage("so-cart", cartItems);
     
     // Refresh header dynamic counter badge instantly upon addition
-    const cartElement = document.querySelector(".cart-count");
-    if (cartElement) {
-      cartElement.textContent = cartItems.length;
-    }
+    renderCartCount();
+
+    // Show confirmation alert message
+    alertMessage(`${this.product.NameWithoutBrand} added to cart!`, false);
   }
 
   renderProductDetails(selector) {
