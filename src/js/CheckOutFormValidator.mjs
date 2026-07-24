@@ -1,6 +1,6 @@
 // validator.js
 export default function validateCheckoutForm(form) {
-    // Lista de campos obligatorios con su mensaje personalizado
+    // List of required fields with custom error messages
     const requiredFields = [
         { id: 'fname', message: 'Please enter your first name.' },
         { id: 'lname', message: 'Please enter your last name.' },
@@ -13,13 +13,14 @@ export default function validateCheckoutForm(form) {
         { id: 'code', message: 'Please enter the security code.' }
     ];
 
+    // Check each field to ensure it is not empty
     for (let field of requiredFields) {
         const input = document.getElementById(field.id);
         if (!input || !input.value.trim()) {
             alert(field.message);
             if (input) input.focus();
-            return false;
+            return false; // Stop validation on first error
         }
     }
-    return true;
+    return true; // All fields passed validation
 }
