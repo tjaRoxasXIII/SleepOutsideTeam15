@@ -1,5 +1,7 @@
+import CheckoutProcess from "./CheckoutProcess.mjs";
+
 const baseURL = import.meta.env.VITE_SERVER_URL;
-console.log(baseURL)
+
 async function convertToJson(res) {
   const jsonResponse = await res.json();
   if (res.ok) {
@@ -9,7 +11,7 @@ async function convertToJson(res) {
   }
 }
 
-export default class ProductData {
+export default class ExternalServices {
   constructor() {
     // API-driven architecture: dynamic URL structure handles data queries
   }
@@ -17,7 +19,6 @@ export default class ProductData {
   async getData(category) {
     const response = await fetch(`${baseURL}products/search/${category}`);
     const data = await convertToJson(response);
-    console.log(data.Result)
     return data.Result;
   }
 
@@ -25,5 +26,12 @@ export default class ProductData {
     const response = await fetch(`${baseURL}product/${id}`);
     const data = await convertToJson(response);
     return data.Result;
+  }
+
+  async checkout(options) {
+    const response = await fetch(`${baseURL}checkout`, options)
+
+    const data = await convertToJson(response)
+    return data.Result
   }
 }

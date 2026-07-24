@@ -1,4 +1,4 @@
-import ProductData from "./ProductData.mjs";
+import ExternalServices from "./ExternalServices.mjs";
 import ProductList from "./ProductList.mjs";
 import { loadHeaderFooter } from "./utils.mjs";
 import getParam from "./utils.mjs";
@@ -21,9 +21,8 @@ if (titleElement && category) {
 }
 
 // 4. Initialize our API data source and lists controller
-const dataSource = new ProductData();
+const dataSource = new ExternalServices();
 const listElement = document.querySelector(".product-list");
 const myList = new ProductList(category, dataSource, listElement);
-console.log(dataSource);
 
 myList.init();

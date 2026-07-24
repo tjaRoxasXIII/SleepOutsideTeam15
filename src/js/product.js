@@ -1,5 +1,5 @@
+import ExternalServices from "./ExternalServices.mjs";
 import updateCartCount from "./itemsCount.mjs";
-import ProductData from "./ProductData.mjs";
 import ProductDetails from "./ProductDetails.mjs";
 import { loadHeaderFooter } from "./utils.mjs";
 import getParam from "./utils.mjs";
@@ -12,7 +12,7 @@ async function initPage() {
   updateCartCount();
 
   const productId = getParam("product");
-  const dataSource = new ProductData();
+  const dataSource = new ExternalServices();
 
   // 3. Pass the function reference as a callback to your class
   const product = new ProductDetails(productId, dataSource, updateCartCount);
